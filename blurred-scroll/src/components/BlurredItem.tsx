@@ -5,7 +5,15 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
 } from 'react-native-reanimated';
-import { BlurMask, Canvas, Group, LinearGradient, RoundedRect } from '@shopify/react-native-skia';
+import {
+  BlurMask,
+  Canvas,
+  Group,
+  LinearGradient,
+  RoundedRect,
+  Skia,
+  Text,
+} from '@shopify/react-native-skia';
 
 interface BlurredItemProps {
   index: number;
@@ -93,6 +101,7 @@ const BlurredItem = ({
               colors={['#9459F4', '#3411E4']}
             />
           </RoundedRect>
+
           <BlurMask blur={blur} />
         </Group>
       </Canvas>

@@ -27,7 +27,7 @@ const App = () => {
         entering={FadeIn}
         onScroll={scrollHandler}
         contentContainerStyle={{
-          paddingTop: windowHeight / 2 - blurredItemContainerHeight / 2,
+          paddingTop: windowHeight / 2 - blurredItemContainerHeight,
           paddingBottom: windowHeight / 2 - blurredItemContainerHeight / 2,
         }}
         scrollEventThrottle={16}
