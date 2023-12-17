@@ -1,19 +1,21 @@
-import { Dimensions, Platform, StyleSheet, View } from 'react-native';
-import { ScreenNames } from '../constants/screens';
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { useSharedValue } from 'react-native-reanimated';
-import { useCallback } from 'react';
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import React, { useCallback } from 'react';
+import { StyleSheet, Dimensions, View, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StackActions } from '@react-navigation/native';
+import { useSharedValue } from 'react-native-reanimated';
+import { BlurView } from 'expo-blur';
+import { LinearGradient } from 'expo-linear-gradient';
+
+import { ScreenNames } from '../constants/screens';
 import {
   BOTTOM_BAR_HEIGHT,
   useSafeBottomBarHeight,
 } from '../hooks/use-bottom-bar-height';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
-import * as OS from 'os';
+
 import { TabBarItem } from './tab-bar-item';
 
+// Get the screen height and define constants for small devices and bottom bar height
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const IS_SMALL_DEVICE = SCREEN_HEIGHT < 700;
 
@@ -32,21 +34,29 @@ const screensMap = Object.keys(ScreenNames).reduce((acc, key, index) => {
   };
 }, {}) as Record<number, keyof typeof ScreenNames>;
 
-const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
+// Define the BottomTabBar component
+const BottomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
+  // Define shared animated values for tracking focused index and floating button progress
   const focusedIndex = useSharedValue(state.index);
 
   const currentIndex = state.index;
 
+  // Callback function to handle tap on a tab bar icon
   const onTapIcon = useCallback(
     (selectedIndex: keyof typeof screensMap) => {
       const nextScreen = screensMap[selectedIndex];
 
+      // Check if the route is changing
       const isChangingRoute = currentIndex !== selectedIndex;
 
+      // Set the bottom floating button state based on the next screen
+
+      // Get the number of screens to pop if the selected screen is already focused
       const popsAmount = navigation.getState().routes.find(item => {
         return item.name === nextScreen;
       })?.state?.index;
 
+      // If not changing route and there are screens to pop, perform a pop action
       if (!isChangingRoute && popsAmount !== 0 && Boolean(popsAmount)) {
         const popAction = StackActions.pop(popsAmount);
 
@@ -54,16 +64,19 @@ const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
         return;
       }
 
+      // Navigate to the next screen
       navigation.navigate(nextScreen);
       return;
     },
     [currentIndex, navigation],
   );
 
+  // Get safe area insets for bottom padding
   const { bottom: safeBottom } = useSafeAreaInsets();
 
   const bottomBarSafeHeight = useSafeBottomBarHeight();
 
+  // Render the BottomTabBar component
   return (
     <>
       <LinearGradient
@@ -76,7 +89,7 @@ const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
           localStyles.gradientContainer,
         ]}
       />
-
+      {/* Animated View representing the tab bar */}
       <View
         style={[
           localStyles.bottomContainer,
@@ -94,6 +107,7 @@ const BottomTabBar = ({ state, navigation }: BottomTabBarProps) => {
               flex: 1,
             },
           ]}>
+          {/* Render tab bar items */}
           {Object.keys(ScreenNames).map((key, index) => {
             return (
               <TabBarItem
@@ -119,6 +133,7 @@ const localStyles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingHorizontal: 15,
+    justifyContent: 'space-between',
   },
   gradientContainer: {
     position: 'absolute',
@@ -138,4 +153,5 @@ const localStyles = StyleSheet.create({
   },
 });
 
+// Export the BottomTabBar component for usage in other components
 export { BottomTabBar };
