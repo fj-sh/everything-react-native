@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "free-hand-drawing-app",
-    "slug": "free-hand-drawing-app",
+    "name": "skia-white-board",
+    "slug": "skia-white-board",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
