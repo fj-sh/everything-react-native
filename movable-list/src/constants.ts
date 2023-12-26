@@ -2,7 +2,7 @@ import { ItemInfo } from './components/ListItem';
 
 export const ITEMS: ItemInfo[] = [
   {
-    title: 'Meditation',
+    title: '1_Meditation',
     subtitle: 'Every day',
     activeValues: [true, false, false, true, false],
     color: 'rgba(238, 130, 238, 0.2)',
@@ -11,7 +11,7 @@ export const ITEMS: ItemInfo[] = [
     isCompleted: false,
   },
   {
-    title: 'Coding',
+    title: '2_Coding',
     subtitle: 'Every day',
     activeValues: [true, false, true, true, false],
     color: 'rgba(0, 0, 255, 0.2)',
@@ -20,7 +20,7 @@ export const ITEMS: ItemInfo[] = [
     isCompleted: true,
   },
   {
-    title: 'Workout',
+    title: '3_Workout',
     subtitle: 'Every day',
     activeValues: [true, true, true, true, false],
     color: 'rgba(0, 105, 0, 0.2)',
@@ -29,7 +29,7 @@ export const ITEMS: ItemInfo[] = [
     isCompleted: false,
   },
   {
-    title: 'Reading',
+    title: '4_Reading',
     subtitle: 'Every day',
     activeValues: [true, true, false, true, true],
     color: 'rgba(255, 0, 0, 0.2)',
@@ -38,7 +38,7 @@ export const ITEMS: ItemInfo[] = [
     isCompleted: false,
   },
   {
-    title: 'Sleep',
+    title: '5_Sleep',
     subtitle: 'Every day',
     activeValues: [true, true, true, true, true],
     color: 'rgba(0, 200, 210, 0.2)',
@@ -47,7 +47,7 @@ export const ITEMS: ItemInfo[] = [
     isCompleted: false,
   },
   {
-    title: 'Eat healthy',
+    title: '6_Eat healthy',
     subtitle: 'Every day',
     activeValues: [true, true, true, true, true],
     color: 'rgba(255, 150, 0, 0.2)',
@@ -56,7 +56,7 @@ export const ITEMS: ItemInfo[] = [
     isCompleted: false,
   },
   {
-    title: 'Drink water',
+    title: '7_Drink water',
     subtitle: 'Every day',
     activeValues: [true, true, true, true, true],
     color: 'rgba(0, 100, 0, 0.2)',
@@ -65,7 +65,7 @@ export const ITEMS: ItemInfo[] = [
     isCompleted: false,
   },
   {
-    title: 'Walk',
+    title: '8_Walk',
     subtitle: 'Every day',
     activeValues: [true, false, true, false, true],
     color: 'rgba(0, 0, 100, 0.2)',
@@ -74,7 +74,7 @@ export const ITEMS: ItemInfo[] = [
     isCompleted: false,
   },
   {
-    title: 'Playing Piano',
+    title: '9_Playing Piano',
     subtitle: 'Every day',
     activeValues: [true, false, true, true, true],
     color: 'rgba(0, 0, 200, 0.2)',
