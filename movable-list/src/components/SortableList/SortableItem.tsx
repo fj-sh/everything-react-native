@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
   runOnJS,
   useAnimatedStyle,
+  Easing,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWindowDimensions, View, StyleSheet } from 'react-native';
@@ -99,9 +100,9 @@ const SortableItem = ({
   const scrollLogic = useCallback(
     ({ absoluteY }: { absoluteY: number }) => {
       'worklet';
+
       const lowerBound = 1.5 * itemHeight;
       const upperBound = scrollContentOffsetY.value + containerHeight;
-
       // scroll speed is proportional to the item height (the bigger the item, the faster it scrolls)
       const scrollSpeed = itemHeight * 0.1;
 
@@ -151,7 +152,6 @@ const SortableItem = ({
       translateX.value = translationX;
 
       const translateY = contextY.value + translationY;
-
       positions.value[index] = translateY + scrollContentOffsetY.value;
 
       scrollLogic({ absoluteY });
@@ -174,7 +174,7 @@ const SortableItem = ({
       animatedIndex.value = null;
     });
 
-  // Derived value for the top position of the item アイテムの上の端の位置
+  // Derived value for the top position of the item. アイテムの上の端の位置
   const top = useDerivedValue(() => {
     if (isGestureActive.value) return positions.value[index];
 
@@ -187,18 +187,37 @@ const SortableItem = ({
     });
   }, [itemHeight, index]);
 
-  const moveToBottom = () => {
-    'worklet';
+  const translateY = useSharedValue(0);
 
-    console.log('moveToBottom 呼ばれたよ');
+  const moveToBottom = () => {
+    const currentHeight = positions.value[index];
     const lastPosition = Object.values(positions.value)
       .sort((a, b) => a - b)
       .pop();
 
     if (lastPosition === undefined) return;
-    positions.value[index] = lastPosition + itemHeight;
-    positions.value = Object.assign({}, positions.value);
-    onDragEnd?.(positions.value);
+
+    const newPositions = { ...positions.value, [index]: lastPosition + itemHeight };
+    positions.value = Object.assign({}, newPositions);
+    console.log('===============================');
+    console.log('newPositions:', newPositions);
+    console.log('index:', index);
+    console.log('lastPosition:', lastPosition);
+    console.log('positions.value[index]:', positions.value[index]);
+    console.log('positions.value:', positions.value);
+
+    // background が見えてしまうのを解消すればOK
+    // translateY.value = withTiming(
+    //   lastPosition + itemHeight - currentHeight,
+    //   {
+    //     duration: 500,
+    //     easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    //   },
+    //   () => {
+    //     console.log('[callback] translateY.value', translateY.value);
+    //   }
+    // );
+    onDragEnd?.(newPositions);
   };
 
   // Callback to get the zIndex of the item
@@ -224,6 +243,9 @@ const SortableItem = ({
       transform: [
         {
           translateX: translateX.value,
+        },
+        {
+          translateY: translateY.value,
         },
       ],
       zIndex: zIndex,

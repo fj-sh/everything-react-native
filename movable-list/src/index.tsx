@@ -24,10 +24,12 @@ const App = () => {
   const { top: safeTop } = useSafeAreaInsets();
 
   const onDragEnd = useCallback((data: Positions) => {
+    console.log('onDragEnd', data);
     const heightArray = Object.entries(data).map(([index, height]) => [
       parseInt(index, 10),
       height,
     ]);
+
     // Sort the array based on the height (second element in each pair)
     heightArray.sort((a, b) => a[1] - b[1]);
 
