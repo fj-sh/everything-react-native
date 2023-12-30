@@ -43,10 +43,6 @@ const App = () => {
   // This is used to update the border radius of the active item
   const currentActiveIndex = useSharedValue<number | null>(null);
 
-  const onItemTap = useCallback(() => {
-    console.log('onItemTap');
-  }, []);
-
   return (
     <>
       <LinearGradient
@@ -96,7 +92,6 @@ const App = () => {
               maxBorderRadius={MAX_BORDER_RADIUS}
               index={index}
               activeIndex={currentActiveIndex}
-              onTap={onItemTap}
             />
           );
         }}

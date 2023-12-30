@@ -26,7 +26,6 @@ type ListItemProps = {
   index: number;
   maxBorderRadius?: number;
   item: ItemInfo;
-  onTap: () => void;
 };
 // Define the ListItem component
 export const ListItem: React.FC<ListItemProps> = ({

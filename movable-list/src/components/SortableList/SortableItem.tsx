@@ -10,6 +10,7 @@ import Animated, {
   runOnJS,
   useAnimatedStyle,
   Easing,
+  withSpring,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWindowDimensions, View, StyleSheet } from 'react-native';
@@ -188,7 +189,7 @@ const SortableItem = ({
   }, [itemHeight, index]);
 
   const translateY = useSharedValue(0);
-
+  const isMovingToBottom = useSharedValue(false);
   const moveToBottom = () => {
     const currentHeight = positions.value[index];
     const lastPosition = Object.values(positions.value)
@@ -197,6 +198,9 @@ const SortableItem = ({
 
     if (lastPosition === undefined) return;
 
+    isMovingToBottom.value = true;
+    // background が見えてしまうのを解消すればOK
+    // translateY.value = withTiming(lastPosition - currentHeight);
     const newPositions = { ...positions.value, [index]: lastPosition + itemHeight };
     positions.value = Object.assign({}, newPositions);
     console.log('===============================');
@@ -206,17 +210,7 @@ const SortableItem = ({
     console.log('positions.value[index]:', positions.value[index]);
     console.log('positions.value:', positions.value);
 
-    // background が見えてしまうのを解消すればOK
-    // translateY.value = withTiming(
-    //   lastPosition + itemHeight - currentHeight,
-    //   {
-    //     duration: 500,
-    //     easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-    //   },
-    //   () => {
-    //     console.log('[callback] translateY.value', translateY.value);
-    //   }
-    // );
+    isMovingToBottom.value = false;
     onDragEnd?.(newPositions);
   };
 
