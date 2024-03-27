@@ -1,7 +1,8 @@
+import analytics from '@react-native-firebase/analytics';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
@@ -22,6 +23,27 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const pathname = usePathname();
+  useEffect(() => {
+    const logScreenView = async () => {
+      console.log('Logging screen view:', pathname);
+      try {
+        await analytics().logScreenView({
+          screen_name: pathname,
+          screen_class: pathname,
+        });
+        await analytics().logEvent('screen_view', {
+          screen_name: pathname,
+          screen_class: pathname,
+        });
+        console.log('Screen view logged:', pathname);
+      } catch (err: any) {
+        console.error(err);
+      }
+    };
+
+    logScreenView();
+  }, [pathname]);
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,

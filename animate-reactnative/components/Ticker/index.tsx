@@ -16,7 +16,7 @@ const TickerApp = () => {
     return () => clearInterval(interval);
   }, [number]);
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={'sample-test-id'}>
       <StatusBar hidden />
       <Ticker number={number} textSize={72} textStyle={{ fontWeight: '900', color: '#000' }} />
     </View>

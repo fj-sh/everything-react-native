@@ -20,7 +20,7 @@ export const Tick = ({ num, textSize, textStyle, index }: TickProps) => {
         animate={{ translateY: -textSize * num }}
         transition={{
           type: 'timing',
-          duration: 500,
+          duration: 1500,
           delay: 80 * index,
         }}
       >
